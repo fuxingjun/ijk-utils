@@ -3,7 +3,7 @@
  * @param {*} color
  * @return {*}
  */
-export function calcTextColor(color: string) {
+export function calcTextColor(color: string): string {
   if (!color) return "inherit";
   const red = parseInt('0x' + color.slice(1, 3));
   const green = parseInt('0x' + color.slice(3, 5));
@@ -17,7 +17,7 @@ export function calcTextColor(color: string) {
  * @param {string} name
  * @return {*}
  */
-export function toHump(name: string) {
+export function toHump(name: string): string {
   return name.replace(/_(\w)/g, function (_all, letter) {
     return letter.toUpperCase();
   });
@@ -28,7 +28,7 @@ export function toHump(name: string) {
  * @param {string} name
  * @return {*}
  */
-export function toLine(name: string) {
+export function toLine(name: string): string {
   return name.replace(/([A-Z])/g, "_$1").toLowerCase();
 }
 
@@ -37,7 +37,7 @@ export function toLine(name: string) {
  * @param source
  * @returns {*}
  */
-export function objectKey2Hump(source: Record<string, any>) {
+export function objectKey2Hump(source: Record<string, any>): Record<string, any> {
   const type = Object.prototype.toString.call(source);
   if (type === "[object Object]") {
     Reflect.ownKeys(source).forEach(key => {
@@ -50,11 +50,11 @@ export function objectKey2Hump(source: Record<string, any>) {
       } else {
         objectKey2Hump(source[key]);
       }
-    })
+    });
   } else if (type === '[object Array]') {
     source.forEach((item: Record<string, any>) => {
       objectKey2Hump(item);
-    })
+    });
   }
   return source;
 }
@@ -64,7 +64,7 @@ export function objectKey2Hump(source: Record<string, any>) {
  * @param source
  * @returns {*}
  */
-export function objectKey2Line(source: Record<string, any>) {
+export function objectKey2Line(source: Record<string, any>): Record<string, any> {
   const reg = /([A-Z])/g;
   const type = Object.prototype.toString.call(source);
   if (type === "[object Object]") {
@@ -78,11 +78,11 @@ export function objectKey2Line(source: Record<string, any>) {
       } else {
         objectKey2Line(source[key]);
       }
-    })
+    });
   } else if (type === '[object Array]') {
     source.forEach((item: Record<string, any>) => {
       objectKey2Line(item);
-    })
+    });
   }
   return source;
 }
@@ -93,7 +93,7 @@ export function objectKey2Line(source: Record<string, any>) {
  * @param args
  * @returns {Promise<*[]>}
  */
-export async function errorCaptured(asyncFunc: Function, ...args: any[]) {
+export async function errorCaptured(asyncFunc: Function, ...args: any[]): Promise<any> {
   try {
     return [null, await asyncFunc(...args)];
   } catch (err) {
@@ -101,3 +101,25 @@ export async function errorCaptured(asyncFunc: Function, ...args: any[]) {
   }
 }
 
+/**
+ * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
+ *
+ * @param {String} text The text to be rendered.
+ * @param {String} font The css font descriptor that text is to be rendered with (e.g. "bold 14px verdana").
+ *
+ * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+ */
+export const getTextWidth = (function () {
+  let canvas: HTMLCanvasElement;
+  return function getTextWidth(
+    text: string,
+    font: string = 'bold 12px system-ui, —apple-system, Segoe UI, Roboto, Emoji, Helvetica, Arial, sans-serif'
+  ): number {
+    // re-use canvas object for better performance
+    !canvas && (canvas = document.createElement('canvas'));
+    const context = canvas.getContext('2d')!;
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
+  };
+})();
