@@ -23,7 +23,7 @@
     "url": "https://github.com/fuxingjun/ijk-utils/issues"
   },
   "homepage": "https://github.com/fuxingjun/ijk-utils#readme",
-  "dependencies": {
+  "devDependencies": {
     "rollup": "^2.79.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-typescript2": "^0.33.0",
