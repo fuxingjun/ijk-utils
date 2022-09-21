@@ -1,6 +1,6 @@
 {
   "name": "ijk-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/fuxingjun/ijk-utils#readme",
   "devDependencies": {
+    "@types/node": "^18.7.18",
     "rollup": "^2.79.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-typescript2": "^0.33.0",

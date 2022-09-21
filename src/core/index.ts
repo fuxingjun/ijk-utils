@@ -1,3 +1,4 @@
+export * from "./io"
 /**
  * @description: 根据背景色计算文字颜色
  * @param {*} color
