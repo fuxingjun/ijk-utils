@@ -1,5 +1,6 @@
 export * from "./io"
 export * from "./process"
+export * from "./object"
 
 /**
  * @description: 根据背景色计算文字颜色
