@@ -13,6 +13,9 @@
     "type": "git",
     "url": "git+https://github.com/fuxingjun/ijk-utils.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "keywords": [],
   "author": "",
   "files": [
