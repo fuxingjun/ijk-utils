@@ -6,7 +6,7 @@ import path from "path";
  * @param src
  * @param callback
  */
-export function fileDisplay(src: fs.PathLike, callback: Function) {
+export function fileDisplay(src: string, callback: Function) {
   fs.readdir(src, function (err, paths) {
     if (err) {
       callback(err);
