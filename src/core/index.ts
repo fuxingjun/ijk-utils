@@ -1,6 +1,7 @@
 export * from "./io"
 export * from "./process"
 export * from "./object"
+export * from "./string"
 
 /**
  * @description: 根据背景色计算文字颜色
@@ -17,81 +18,6 @@ export function calcTextColor(color: string): string {
 }
 
 /**
- * @description: 下划线转换驼峰
- * @param {string} name
- * @return {*}
- */
-export function toHump(name: string): string {
-  return name.replace(/_(\w)/g, function (_all, letter) {
-    return letter.toUpperCase();
-  });
-}
-
-/**
- * @description: 驼峰转换下划线
- * @param {string} name
- * @return {*}
- */
-export function toLine(name: string): string {
-  return name.replace(/([A-Z])/g, "_$1").toLowerCase();
-}
-
-/**
- * 将对象的key转为驼峰
- * @param source
- * @returns {*}
- */
-export function objectKey2Hump(source: Record<string, any>): Record<string, any> {
-  const type = Object.prototype.toString.call(source);
-  if (type === "[object Object]") {
-    Reflect.ownKeys(source).forEach(key => {
-      if (typeof key !== "string") return;
-      if (key.indexOf("_") > -1) {
-        const humpKey = toHump(key);
-        source[humpKey] = source[key];
-        Reflect.deleteProperty(source, key);
-        objectKey2Hump(source[humpKey]);
-      } else {
-        objectKey2Hump(source[key]);
-      }
-    });
-  } else if (type === '[object Array]') {
-    source.forEach((item: Record<string, any>) => {
-      objectKey2Hump(item);
-    });
-  }
-  return source;
-}
-
-/**
- * 将对象的key转为下划线
- * @param source
- * @returns {*}
- */
-export function objectKey2Line(source: Record<string, any>): Record<string, any> {
-  const reg = /([A-Z])/g;
-  const type = Object.prototype.toString.call(source);
-  if (type === "[object Object]") {
-    Reflect.ownKeys(source).forEach(key => {
-      if (typeof key !== "string") return;
-      if (reg.test(key)) {
-        const lineKey = toLine(key);
-        source[lineKey] = source[key];
-        Reflect.deleteProperty(source, key);
-        objectKey2Line(source[lineKey]);
-      } else {
-        objectKey2Line(source[key]);
-      }
-    });
-  } else if (type === '[object Array]') {
-    source.forEach((item: Record<string, any>) => {
-      objectKey2Line(item);
-    });
-  }
-  return source;
-}
-
-/**
  * 异步函数辅助方法
  * @param asyncFunc
  * @param args
@@ -104,29 +30,6 @@ export async function errorCaptured(asyncFunc: Function, ...args: any[]): Promis
     return [err, null];
   }
 }
-
-/**
- * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
- *
- * @param {String} text The text to be rendered.
- * @param {String} font The css font descriptor that text is to be rendered with (e.g. "bold 14px verdana").
- *
- * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
- */
-export const getTextWidth = (function () {
-  let canvas: HTMLCanvasElement;
-  return function getTextWidth(
-    text: string,
-    font: string = 'bold 12px system-ui, —apple-system, Segoe UI, Roboto, Emoji, Helvetica, Arial, sans-serif'
-  ): number {
-    // re-use canvas object for better performance
-    !canvas && (canvas = document.createElement('canvas'));
-    const context = canvas.getContext('2d')!;
-    context.font = font;
-    const metrics = context.measureText(text);
-    return metrics.width;
-  };
-})();
 
 interface TreeOption {
   parentIdKey?: string;
