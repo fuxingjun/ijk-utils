@@ -64,10 +64,30 @@ export const getTextWidth = (function () {
     !canvas && (canvas = document.createElement('canvas'));
     const context = canvas.getContext('2d')!;
     context.font = font;
-    const metrics = context.measureText(text);
+    const metrics = context.measureText(getMaxText(text));
     return metrics.width;
   };
 })();
+
+/**
+ * 如果字符串中有\r\n,返回最长的一部分
+ * @param {*} text 
+ * @returns 
+ */
+function getMaxText(text: string) {
+  if (text.indexOf("\n") > -1) {
+    const textList = text.split("\n");
+    const max = textList.reduce((total, current, index) => {
+      if (current.length > total.length) {
+        total.length = current.length;
+        total.index = index;
+      }
+      return total;
+    }, { index: 0, length: 0 });
+    return textList[max.index];
+  }
+  return text;
+}
 
 export function copyText(content: string, success?: Function) {
   success = success || function () {
@@ -117,6 +137,6 @@ export function copyText(content: string, success?: Function) {
     success!(text);
   }
 
-  funCopy(content)
+  funCopy(content);
 }
 
