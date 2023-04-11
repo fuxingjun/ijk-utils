@@ -75,6 +75,9 @@ export const getTextWidth = (function () {
  * @returns 
  */
 function getMaxText(text: string) {
+  if (typeof text !== "string") {
+    text = text + "";
+  }
   if (text.indexOf("\n") > -1) {
     const textList = text.split("\n");
     const max = textList.reduce((total, current, index) => {
