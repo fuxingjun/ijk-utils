@@ -2,6 +2,8 @@ export * from "./io"
 export * from "./process"
 export * from "./object"
 export * from "./string"
+export * from "./math"
+export * from "./type"
 
 /**
  * @description: 根据背景色计算文字颜色
@@ -103,3 +105,15 @@ export function list2Tree(
   });
   return result;
 }
+
+export class Guid {
+  #count = 1;
+
+  constructor() {
+  }
+
+  guid() {
+    return this.#count++;
+  }
+}
+

@@ -1,13 +1,23 @@
 {
   "name": "ijk-utils",
-  "version": "1.0.6",
-  "description": "",
+  "version": "1.0.7",
+  "description": "个人使用的一些工具方法",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.js",
+  "sideEffects": false,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "cross-env TS_NODE_PROJECT='test/tsconfig.test.json' mocha test/**/**.test.ts",
+    "cover": "nyc yarn test",
+    "postinstall": "node postinstall.js"
+  },
+  "mocha": {
+    "require": [
+      "ts-node/register",
+      "tsconfig-paths/register"
+    ],
+    "ui": "bdd"
   },
   "repository": {
     "type": "git",
@@ -17,9 +27,11 @@
     "registry": "https://registry.npmjs.org"
   },
   "keywords": [],
-  "author": "",
+  "author": "fuxingjun",
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "postinstall.js"
   ],
   "license": "ISC",
   "bugs": {
@@ -27,10 +39,18 @@
   },
   "homepage": "https://github.com/fuxingjun/ijk-utils#readme",
   "devDependencies": {
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.7.18",
+    "cross-env": "^7.0.3",
+    "expect.js": "^0.3.1",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
     "rollup": "^2.79.0",
     "rollup-plugin-dts": "^4.2.2",
     "rollup-plugin-typescript2": "^0.33.0",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^4.8.2"
-  }
+  },
+  "dependencies": {}
 }
